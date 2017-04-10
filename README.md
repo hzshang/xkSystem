@@ -165,7 +165,6 @@ create table sc
 >返回
 ```json
 {
-    "state":true,
     "user":"200010001"
 }
 ```
