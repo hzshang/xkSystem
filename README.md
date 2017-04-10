@@ -4,34 +4,16 @@
 
 -----
 ##**ID格式**  
-
-####学生学号
-- 10位数字 ( char(10) )
-- 前两位入学年份
+####userID
+- 9位数字 ( char(9) )
+- 第一位：0：老师 1,2,3,4：大一，大二，大三，大四
 - 中间四位院系ID  
-- 后四位流水号
-
-####职工号
-- 9位  
-- 0开头
-- 前四位 院系ID
 - 后四位流水号
 
 ####课程ID
 - 6位
 - 前四位学院ID
 - 最后两位流水
-
-##数据传输  
-- 传输json格式  
-```json
-    {
-        "pid":123,  
-        "userID":"1507131121"  
-        
-    }
-``` 
-
 
 ##**登录界面** 
 
@@ -58,7 +40,7 @@
 - 密码
 - 再次输入密码
 - 所在学院
-- （年级一栏禁用）
+- （年级一栏强制为0）
 
 
 ##**学生界面**  
@@ -89,57 +71,119 @@
 
 ##**数据库设计**
 ```sql
-学院
+create table department
 (
-    学院id char(4)
-    学院名称 varchar(30)
-)
+	did char(4), 
+	dname varchar(30),
+	primary key(did)
+);
+create table user
+(
+	id char(9),
+	name varchar(30),
+	grade int,            
+	did char(4),
+	pwd varchar(30),
+	primary key(id),
+	foreign key(did) references department(did)
+);
+create table room
+(
+	rid char(4),
+	monday char(10),
+	tuesday char(10),
+	wednesday char(10),
+	thursday char(10),
+	friday char(10),
+	saturday char(10),
+	sunday char(10),
+	primary key(rid)
+);
+create table course
+(
+	cid char(6),
+	cname varchar(30),
+	current int,
+	max int,
+	tid char(9),
+	ctime char(3),
+	rid char(4),
+	primary key(cid),
+	foreign key(tid) references user(id),
+	foreign key(rid) references room(rid)
+);
+create table sc
+(
+	sid char(9),
+	cid char(6),
+	primary key(sid,cid),
+	foreign key(sid) references user(id),
+	foreign key(cid) references course(cid)
+);
 
-学生
-(
-    学号 char(10)  （代理建）主键
-    姓名 varchar(30)
-    年级 char(1)
-    所在学院id 外键 char（4）
-    密码 varchar(30)待定   加密后密码
-)
-课程
-(
-    课程id  char(6) 
-    课程名  varchar(30)
-    选课人数  int
-    限制人数  int
-    开课老师id 外键char（9）
-    课程时间   char(3)  eg. 332 周三 第三节开始，两节课 (每天10节课，0代表第十节)
-    开课教师id 外键 
-    教室id
-)
-老师
-(
-    学号 char(9) 代理键 主键
-    姓名 varchar(30)
-    密码 varchar(30)待定   加密后密码
-    所在学院id 外键 char（4） 
-)
+```
+##**选课限制**  
 
-选课记录
-(
-    学生id
-    课程id
-)
-教室
-(
-    教室id  char(4) 
-    周一  //char(10)
-    周二  //初始值为0000000000
-    周三  //一个0 代表一节课
-    周四  //某节课在该教室上课，对应的位置为1
-    周五
-    周六
-    周日
-)
+第一轮选课
+- 学生只能选本院系，本年级课程  
+
+--
+第二轮选课  
+- 学生可选其他院系，其他年级课程
+- 无限制条件
+
+##**服务请求规则**  
+####登录  
+>请求
+```json
+{
+    "pid":1,
+    "user":"200010001",
+    "pwd":"asdffgghhj"
+}
 ```
 
+>返回  
+```json
+{
+    "state":true
+}
+```
 
+####注册
+>请求
+```json
+{
+    "pid":2,
+    "name":"Tom",
+    "department":"0001",
+    "grade":2,
+    "pwd":"asdfghj"
+}
+```
 
+>返回
+```json
+{
+    "state":true,
+    "user":"200010001"
+}
+```
+
+####忘记密码
+>请求
+```json
+{
+    "pid":3,
+    "user":"200010001",
+    "name":"Tom",
+    "pwd":"newpwd"
+}
+```
+>返回
+```json
+{
+    "state":true
+}
+```
 
