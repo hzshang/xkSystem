@@ -290,7 +290,7 @@ where id=tid and cid not in (
 返回  
 ```json
 {
-    "state":True
+    "state":true
 }
 ```
 
@@ -305,7 +305,7 @@ where id=tid and cid not in (
 返回  
 ```json
 {
-    "state":True
+    "state":true
 }
 ```
 操作
@@ -328,7 +328,7 @@ delete from sc where sid="100010001" and cid="000302"
 返回
 ```json
 {
-    "state":True,
+    "state":true,
     "cid":"000101"
 }
 {
@@ -348,7 +348,7 @@ delete from sc where sid="100010001" and cid="000302"
 返回  
 ```json
 {
-    "state":True
+    "state":true
 }
 {
     "state":False
