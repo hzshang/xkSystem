@@ -67,9 +67,9 @@ def askForCourses(recvData):#学生查看可选课程
 	where id=tid and cid not in (\
     select cid from sc where sid=\"%s\")\""%recvData["user"]
     cur.execute(sql)
-
     piece=cur.fetchall()[recvData["index"]:recvData["index"]+10]
-    array=[dict(cid=i[0],cname=i[1],current=i[2],max=i[3],ctime=i[4],tname=i[5],rid=i[6]) for i in piece]
+    array=[dict(cid=i[0],cname=i[1],current=i[2],max=i[3],ctime=i[4],tname=i[5],rid=i[6])\
+     for i in piece]
     return {"total":len(cur.fetchall()),"courses":array}
     
 
