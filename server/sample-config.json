@@ -1,0 +1,9 @@
+{
+	"db_host":"yourHost",
+	"db_database":"database",
+	"db_user":"user",
+	"db_passwd":"passwd",
+	"listen":"0.0.0.0",
+	"port":3307,
+	"round":1
+}

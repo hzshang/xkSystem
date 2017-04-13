@@ -6,3 +6,4 @@ dist
 build
 server/__pycache__
 server/sftp-config.json
+server/config.json
