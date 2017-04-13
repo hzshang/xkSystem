@@ -106,7 +106,7 @@ create table course
 	current int,
 	max int,
 	tid char(9),
-	ctime char(3),
+	ctime char(3),#"122"代表周一第二节开始两个课时
 	rid char(4),
 	primary key(cid),
 	foreign key(tid) references user(id),
@@ -156,7 +156,7 @@ create table sc
 {
     "pid":2,
     "name":"Tom",
-    "department":"0001",
+    "did":"0001",
     "grade":2,
     "pwd":"asdfghj"
 }
@@ -185,4 +185,55 @@ create table sc
     "state":true
 }
 ```
+
+####请求学院
+>请求
+```json
+{
+    "pid":4
+}
+```
+>返回
+```json
+[
+    "0001.计算机",
+    "0002.数学"
+]
+```
+
+####登陆后请求用户信息/刷新
+>请求  
+```json
+{
+    "pid":5
+    "user":100010001
+}
+```
+>返回
+```json
+{
+    "coursesSelected":
+    [
+        {
+            "cid":"000101",
+            "cname":"程序设计",
+            "current":15,
+            "max":45,
+            "rid":"2108",
+            "ctime":"112",
+            
+        }
+    ]
+}
+```
+
+
+##网络接口  
+
+```c++
+    //每次调用send后必须调用recv函数
+    bool send(const QJsonObject &);//发送
+    QJsonDocument recv();//接受
+```
+
 
