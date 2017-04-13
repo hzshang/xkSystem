@@ -19,11 +19,11 @@ def signup(recvData):
 	prefix=str(recvData["grade"])+recvData["did"]
 	sql="select max(id) from user where id like \"%s%%\""%prefix
 	cur.execute(sql)
-	r=cur.fetchall()
-	if r[0][0]==None:
+	fet=cur.fetchall()
+	if fet[0][0]==None:
 		id= prefix+"0001"
 	else:
-		id=str(int(r[0][0])+1)
+		id=str(int(fet[0][0])+1)
 	sql="insert into user values(\"%s\",\"%s\",%s,\"%s\",\"%s\")"\
 	%(id,recvData["name"],str(recvData["grade"]),recvData["did"],recvData["pwd"])
 	cur.execute(sql)
@@ -52,15 +52,21 @@ def askForDepart(recvData):
 	cur.execute(sql)
 	return [i[0]+"."+i[1] for i in cur.fetchall()]
 
-def case5(recvData):
-	pass
+def askForSchedule(recvData):
+	cur=gl.conn.cursor()
+	sql="select cname,rid,ctime,user.name\
+	from course,user,sc\
+	where sc.sid=\"%s\" and sc.cid=course.cid and course.tid=user.id"%recvData[user]
+	cur.execute(sql)
+	return [dict(cname=i[0],rid=i[1],ctime=i[2],tname=i[3]) for i in cur.fetchall()]
+
 
 switch={
 	1:signin,
 	2:signup,
 	3:resetpwd,
 	4:askForDepart,
-	5:case5
+	5:askForSchedule
 }
 
 def operate(recvData):
