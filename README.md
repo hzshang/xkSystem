@@ -231,13 +231,14 @@ select cname,rid,ctime,user.name
 from course,user,sc
 where sc.sid="100010001" and sc.cid=course.cid and course.tid=user.id
 ```
-####  请求未选课程信息
+####  查看可选课程(Done)
 请求  
 未选课程过多，每页显示10个课程，index表示第一个课程的序号，翻页时序号加10
 ```json
 {
     "pid":6,
-    "index":0
+    "index":0,
+    "user":"100010001"
 }
 ```
 返回  
@@ -268,10 +269,17 @@ total表示所有待选可课程（方便计算页数）
     ]
 }
 ```
-
+查询
+```sql
+select cid,cname,current,max,ctime,name
+from user,course
+where id=tid and cid not in (
+    select cid from sc where sid="100010001"
+);
+```
 #待补  
-#### 选课操作  
-#### 退课操作  
+#### 学生选课操作  
+#### 学生退课操作  
 #### 老师添加课程  
 #### 老师取消课程  
 #### 老师查看自己开设的课程  
