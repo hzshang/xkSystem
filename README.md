@@ -134,7 +134,7 @@ create table sc
 
 ## **服务请求规则**  
 #### 登录(Done)
->请求
+请求
 ```json
 {
     "pid":1,
@@ -143,7 +143,7 @@ create table sc
 }
 ```
 
->返回  
+返回  
 ```json
 {
     "state":true
@@ -151,7 +151,7 @@ create table sc
 ```
 
 #### 注册(Done)
->请求
+请求
 ```json
 {
     "pid":2,
@@ -162,7 +162,7 @@ create table sc
 }
 ```
 
->返回
+返回
 ```json
 {
     "user":"200010001"
@@ -170,7 +170,7 @@ create table sc
 ```
 
 #### 忘记密码(Done)
->请求
+请求
 ```json
 {
     "pid":3,
@@ -179,7 +179,7 @@ create table sc
     "pwd":"newpwd"
 }
 ```
->返回
+返回
 ```json
 {
     "state":true
@@ -187,13 +187,13 @@ create table sc
 ```
 
 #### 请求学院(Done)
->请求
+请求
 ```json
 {
     "pid":4
 }
 ```
->返回
+返回
 ```json
 [
     "0001.计算机",
@@ -202,14 +202,14 @@ create table sc
 ```
 
 #### 请求学生课程表信息(Done)
->请求  
+请求  
 ```json
 {
     "pid":5,
     "user":100010001
 }
 ```
->返回
+返回
 ```json
 [
    {
@@ -233,7 +233,7 @@ from course,user,sc
 where sc.sid="100010001" and sc.cid=course.cid and course.tid=user.id
 ```
 ####  请求未选课程信息
->请求  
+请求  
 未选课程过多，每页显示10个课程，index表示第一个课程的序号，翻页时序号加10
 ```json
 {
@@ -241,7 +241,7 @@ where sc.sid="100010001" and sc.cid=course.cid and course.tid=user.id
     "index":0
 }
 ```
->返回  
+返回  
 total表示所有待选可课程（方便计算页数）
 ```json
 {
