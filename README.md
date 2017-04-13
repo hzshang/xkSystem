@@ -332,7 +332,7 @@ delete from sc where sid="100010001" and cid="000302"
     "cid":"000101"
 }
 {
-    "state":False
+    "state":false
 }
 ```
 
@@ -351,7 +351,7 @@ delete from sc where sid="100010001" and cid="000302"
     "state":true
 }
 {
-    "state":False
+    "state":false
 }
 ```
 #待补  
