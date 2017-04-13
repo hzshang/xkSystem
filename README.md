@@ -205,8 +205,8 @@ create table sc
 >请求  
 ```json
 {
-    "pid":5
-    "user":100010001
+    "pid":5,
+    "user":100010001
 }
 ```
 >返回
