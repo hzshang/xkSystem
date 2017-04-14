@@ -108,6 +108,7 @@ create table course
 	tid char(9),
 	ctime char(3),#"122"代表周一第二节开始两个课时
 	rid char(4),
+	credit int,
 	primary key(cid),
 	foreign key(tid) references user(id),
 	foreign key(rid) references room(rid)
@@ -212,16 +213,18 @@ create table sc
 ```json
 [
    {
+        "cid":"000101"
         "cname":"程序设计",
         "rid":"2108",
         "ctime":"112",
         "tname":"李华"
    },
    {
+        "cid":"000101"
         "cname":"数据库",
         "rid":"2108",
         "ctime":"112",
-        "tname":"李华"        
+        "tname":"李华"    
    }
 ]
 ```
@@ -256,6 +259,7 @@ total表示所有待选可课程（方便计算页数）
             "rid":"2108",
             "ctime":"112",
             "tname":"李华"
+            "credit":2
         },
         {
             "cid":"000102",
@@ -264,7 +268,8 @@ total表示所有待选可课程（方便计算页数）
             "max":45,
             "rid":"2108",
             "ctime":"112",
-            "tname":"李华"     
+            "tname":"李华",
+            "credit":2     
         }
     ]
 }
@@ -322,7 +327,8 @@ delete from sc where sid="100010001" and cid="000302"
     "cname":"程序设计",
     "rid":"2109",
     "ctime":"312",
-    "max":45
+    "max":45,
+    "credit":2
 }
 ```
 返回
