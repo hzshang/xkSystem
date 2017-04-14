@@ -235,12 +235,18 @@ def askForInformation(recvData):#请求用户信息
 	fet=cur.fetchall()[0]
 	return dict(name=fet[0],dname=fet[1])
 
-def askForRoom(recvData):
+def askForRoomInformation(recvData):
 	cur=gl.conn.cursor()
 	sql='select * from room where rid="%s"'%recvData["rid"]
 	cur.execute(sql)
 	i=cur.fetchall()[0]
 	return i[1:]
+
+def askForRoom(recvData):
+	cur=gl.conn.cursor()
+	sql='select rid from room'
+	cur.execute(sql)
+	return [i[0] for i in cur.fetchall()]
 
 switch={
 	1:signin,
@@ -256,7 +262,8 @@ switch={
 	11:seeMyCourse,
 	12:seeMyCourseStudent,
 	13:askForInformation,
-	14:askForRoom
+	14:askForRoomInformation,
+	15:askForRoom
 }
 
 def operate(recvData):
