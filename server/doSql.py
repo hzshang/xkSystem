@@ -199,10 +199,31 @@ def delCourse(recvData):#老师删课
 	return {"state":True}
 
 def seeMyCourse(recvData):#老师查看所有开设的课程
-	pass
-def seeMyCourseStudent(recvData):#老师查看选择某课的学生
-	pass
+	sql="select * from course where tid='%s'"%recvData["user"]
+	cur=gl.conn.cursor()
+	cur.execute(sql)
+	return [dict(cid=i[0],cname=i[1],current=i[2],max=i[3],ctime=i[5],rid=i[6],credit=i[7]) for i in cur.fetchall()]
 
+
+def seeMyCourseStudent(recvData):#老师查看选择某课的学生
+	sql="select user.id,user.name from user,sc where user.id=sc.sid and sc.cid='%s'"%recvData["cid"]
+	cur=gl.conn.cursor()
+	cur.execute(sql)
+	return [dict(id=i[0],name=i[1]) for i in cur.fetchall()]
+
+def askForInformation(recvData):#请求用户信息
+	sql="select name,dname from user,department where user.did=department.did and id='%s'"%recvData["user"]
+	cur=gl.conn.cursor()
+	cur.execute(sql)
+	fet=cur.fetchall()[0]
+	return dict(name=fet[0],dname=fet[1])
+
+def askForRoom(recvData):
+	cur=gl.conn.cursor()
+	sql='select * from room where rid="%s"'%recvData["rid"]
+	cur.execute(sql)
+	i=cur.fetchall()[0]
+	return i[1:]
 
 switch={
 	1:signin,
@@ -216,7 +237,9 @@ switch={
 	9:addCourse,
 	10:delCourse,
 	11:seeMyCourse,
-	12:seeMyCourseStudent
+	12:seeMyCourseStudent,
+	13:askForInformation,
+	14:askForRoom
 }
 
 def operate(recvData):
