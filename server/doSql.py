@@ -56,7 +56,7 @@ def askForSchedule(recvData):
 	cur=gl.conn.cursor()
 	sql="select cname,rid,ctime,user.name\
 	from course,user,sc\
-	where sc.sid='%s' and sc.cid=course.cid and course.tid=user.id"%recvData[user]
+	where sc.sid='%s' and sc.cid=course.cid and course.tid=user.id"%recvData["user"]
 	cur.execute(sql)
 	return [dict(cname=i[0],rid=i[1],ctime=i[2],tname=i[3]) for i in cur.fetchall()]
 
@@ -66,7 +66,7 @@ def askForCourses(recvData):#学生查看可选课程
 	where id=tid and cid not in \
 	(select cid from sc where sid='%s')'"%recvData["user"]
 	cur.execute(sql)
-	piece=cur.fetchall()[recvData["index"]:recvData["index"]+10]
+	piece=cur.fetchall()[recvData["index"]*10:recvData["index"]*10+10]
 	array=[dict(cid=i[0],cname=i[1],current=i[2],max=i[3],ctime=i[4],tname=i[5],rid=i[6],credit=i[7]) for i in piece]
 	return {"total":len(cur.fetchall()),"courses":array}
 
@@ -92,6 +92,18 @@ def checkTimeIsOK(ctime,time):#检查课程时间是否冲突
 			break
 	return ok
 
+	
+def setCurrentCourse(cid,added):
+	sql="select current,max from course where cid='%s'"%cid
+	cur=gl.conn.cursor()
+	cur.execute(sql)
+	current,max=cur.fetchall()[0]
+	if current+added<=max and current+added>=0:
+		sql="update course set current=%s where cid='%s'"%((current+added),cid)
+		return True
+	else:
+		return False
+
 def selectCourse(recvData):#学生选课
 	time=initSchedule(recvData["user"])
 
@@ -103,14 +115,18 @@ def selectCourse(recvData):#学生选课
 	if not checkTimeIsOK(ctime,time):
 		return {"state":False}
 	try:
-		sql="insert into sc values('%s','%s')"%(recvData["user"],recvData["cid"])
-		cur.execute(sql)
-		cur.commit()
-		ret={"state":True}
+		if setCurrentCourse(recvData["cid"],1):
+			sql="insert into sc values('%s','%s')"%(recvData["user"],recvData["cid"])
+			cur.execute(sql)
+			cur.commit()
+			ret={"state":True}
+		else:
+			ret={"state":False}
 	except Exception as e:
 		print(e)
 		ret={"state":False}
 	return ret
+
 
 def quitCourse(recvData):#学生退课
 	cur=gl.conn.cursor()
@@ -118,6 +134,7 @@ def quitCourse(recvData):#学生退课
 		sql="delete from sc where sid='%s' and cid='%s'"%(recvData["user"],recvData["cid"])
 		cur.execute(sql)
 		cur.commit()
+		setCurrentCourse(cid,-1)
 		ret={"state":True}
 	except Exception as e:
 		print(e)
