@@ -62,9 +62,9 @@ def askForSchedule(recvData):
 
 def askForCourses(recvData):#学生查看可选课程
 	cur=gl.conn.cursor()
-	sql="select cid,cname,current,max,ctime,name,rid,credit from user,course \
-	where id=tid and cid not in \
-	(select cid from sc where sid='%s')'"%recvData["user"]
+	sql="select cid,cname,current,max,rid,ctime,name,creditfrom course,user\
+	where tid=id and cid not in (select cid from sc where sid='%s') and cname like '%%%s%%'\
+	and cid like %%%s%% and tname like %%%s%%"%(recvData["user"],recvData["cname"],recvData["cid"],recvData["tname"])
 	cur.execute(sql)
 	piece=cur.fetchall()[recvData["index"]*10:recvData["index"]*10+10]
 	array=[dict(cid=i[0],cname=i[1],current=i[2],max=i[3],ctime=i[4],tname=i[5],rid=i[6],credit=i[7]) for i in piece]

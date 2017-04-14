@@ -235,13 +235,16 @@ from course,user,sc
 where sc.sid="100010001" and sc.cid=course.cid and course.tid=user.id
 ```
 ####  查看可选课程(Done)
-请求  
+请求  支持模糊匹配  
 未选课程过多，每页显示10个课程，index表示第一个课程的序号，翻页时序号加10
 ```json
 {
     "pid":6,
     "index":0,
-    "user":"100010001"
+    "user":"100010001",
+    "cname":"",
+    "cid":"",
+    "tname":""
 }
 ```
 返回  
