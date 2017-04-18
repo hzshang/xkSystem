@@ -427,11 +427,15 @@ delete from sc where sid="100010001" and cid="000302"
 [
     {
         "id":"100010001",
-        "name":"李华"
+        "name":"李华",
+        "grade":1,
+        "dname":"计算机学院"
     },
     {
         "id":"100010002",
-        "name":"刘华"
+        "name":"李华",
+        "grade":1,
+        "dname":"计算机学院"
     }
 ]
 ```

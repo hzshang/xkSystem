@@ -24,8 +24,9 @@ def signup(recvData):
 		id= prefix+"0001"
 	else:
 		id=str(int(fet[0][0])+1)
-	sql="insert into user values('%s','%s',%s,'%s','%s')"\
-	%(id,recvData["name"],str(recvData["grade"]),recvData["did"],recvData["pwd"])
+		while len(id)<9:
+			id='0'+id
+	sql="insert into user values('%s','%s',%s,'%s','%s')"%(id,recvData["name"],recvData["grade"],recvData["did"],recvData["pwd"])
 	cur.execute(sql)
 	gl.conn.commit()
 	#log
@@ -221,10 +222,11 @@ def seeMyCourse(recvData):#老师查看所有开设的课程
 	return [dict(cid=i[0],cname=i[1],current=i[2],max=i[3],ctime=i[5],rid=i[6],credit=i[7]) for i in cur.fetchall()]
 
 def seeMyCourseStudent(recvData):#老师查看选择某课的学生
-	sql="select user.id,user.name from user,sc where user.id=sc.sid and sc.cid='%s'"%recvData["cid"]
+	sql="select user.id,user.name,user.grade,dname from user,sc,department where user.id=sc.sid and sc.cid='%s' and department.did=user.did"%recvData["cid"]
 	cur=gl.conn.cursor()
 	cur.execute(sql)
-	return [dict(id=i[0],name=i[1]) for i in cur.fetchall()]
+	array=[dict(id=i[0],name=i[1],grade=i[2],dname=i[3]) for i in cur.fetchall()]
+	return array
 
 def askForUserInformation(recvData):#请求用户信息
 	sql="select name,dname from user,department where user.did=department.did and id='%s'"%recvData["user"]
