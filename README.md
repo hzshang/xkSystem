@@ -12,8 +12,8 @@
 
 #### 课程ID
 - 6位
-- 前四位老师ID
-- 最后两位流水
+- 起始100000
+- 流水号，无实际意义
 
 ## **登录界面** 
 
@@ -22,9 +22,7 @@
 
 ## **忘记密码**
 - 输入账号，姓名
-- 如果正确，填写新密码
-
-
+- 若正确，填写新密码
 
 ## **注册界面**  
 
@@ -40,7 +38,7 @@
 - 密码
 - 再次输入密码
 - 所在学院
-- （年级一栏强制为0）
+- (年级一栏强制为0)
 
 
 ## **学生界面**  
@@ -90,13 +88,13 @@ create table user
 create table room
 (
 	rid char(4),
-	monday char(10),
-	tuesday char(10),
-	wednesday char(10),
-	thursday char(10),
-	friday char(10),
-	saturday char(10),
-	sunday char(10),
+	monday char(11),
+	tuesday char(11),
+	wednesday char(11),
+	thursday char(11),
+	friday char(11),
+	saturday char(11),
+	sunday char(11),
 	primary key(rid)
 );
 create table course
@@ -133,7 +131,7 @@ create table sc
 - 无限制条件
 
 ## **服务请求规则**  
-#### 登录(Done)
+#### 登录
 请求
 ```json
 {
@@ -150,7 +148,7 @@ create table sc
 }
 ```
 
-#### 注册(Done)
+#### 注册
 请求
 ```json
 {
@@ -169,7 +167,7 @@ create table sc
 }
 ```
 
-#### 忘记密码(Done)
+#### 忘记密码
 请求
 ```json
 {
@@ -186,7 +184,7 @@ create table sc
 }
 ```
 
-#### 请求学院(Done)
+#### 请求学院
 请求
 ```json
 {
@@ -201,7 +199,7 @@ create table sc
 ]
 ```
 
-#### 请求学生课程表信息(Done)
+#### 请求学生课程表信息
 请求  
 ```json
 {
@@ -228,15 +226,10 @@ create table sc
    }
 ]
 ```
-查询操作
-```sql
-select cname,rid,ctime,user.name
-from course,user,sc
-where sc.sid="100010001" and sc.cid=course.cid and course.tid=user.id
-```
-####  查看可选课程(Done)
-请求  支持模糊匹配  
-未选课程过多，每页显示10个课程，index表示第一个课程的序号，翻页时序号加10
+####  查看可选课程  
+请求  
+支持模糊匹配   
+未选课程过多，每页显示10个课程，index表示页数,每页10个数据
 ```json
 {
     "pid":6,
@@ -277,16 +270,7 @@ total表示所有待选可课程（方便计算页数）
     ]
 }
 ```
-查询
-```sql
-select cid,cname,current,max,ctime,name
-from user,course
-where id=tid and cid not in (
-    select cid from sc where sid="100010001"
-);
-```
-
-#### 学生选课操作(Done)  
+#### 学生选课操作
 请求  
 ```json
 {
@@ -302,7 +286,7 @@ where id=tid and cid not in (
 }
 ```
 
-#### 学生退课操作(Done)  
+#### 学生退课操作
 ```json
 {
     "pid":8,
@@ -321,7 +305,7 @@ where id=tid and cid not in (
 delete from sc where sid="100010001" and cid="000302"
 ```
 
-#### 老师添加课程(Done)  
+#### 老师添加课程 
 请求
 ```json
 {
@@ -345,7 +329,7 @@ delete from sc where sid="100010001" and cid="000302"
 }
 ```
 
-#### 老师删除课程(Done)  
+#### 老师删除课程
 请求  
 ```json
 {
@@ -363,7 +347,7 @@ delete from sc where sid="100010001" and cid="000302"
     "state":false
 }
 ```
-#### 请求所有教室占用情况(Done)
+#### 请求所有教室占用情况
 请求  
 ```json
 {
@@ -371,22 +355,22 @@ delete from sc where sid="100010001" and cid="000302"
     "rid":"2108"
 }
 ```
-返回
+返回  
 七个字符串，代表从周一到周日的教师占用情况  
-如"1100000000"表示第十节，第一节该教室有课
+第一个无意义,第n位代表第n-1节课的使用情况
 ```json
 [
-    "1100000000",
-    "0110000000",
-    "0000000000",
-    "0011000000",
-    "0000000000",
-    "0000000000",
-    "0000000000",
+    "01100000000",
+    "01100000000",
+    "00000000000",
+    "00110000000",
+    "00000000000",
+    "00000000000",
+    "00000000000",
 ]
 ```
 
-#### 请求用户信息(Done)
+#### 请求用户信息
 请求
 ```json
 {
@@ -401,10 +385,7 @@ delete from sc where sid="100010001" and cid="000302"
     "name":"李华"
 }
 ```
-
-#待补  
-
-#### 老师查看自己开设的课程(Done)  
+#### 老师查看自己开设的课程  
 请求
 ```json
 {
@@ -435,7 +416,7 @@ delete from sc where sid="100010001" and cid="000302"
         }
 ]
 ```
-#### 老师查看选择自己课程的学生(Done)  
+#### 老师查看选择自己课程的学生  
 请求
 ```json
 {
@@ -470,7 +451,7 @@ delete from sc where sid="100010001" and cid="000302"
     "2018","2014","2001"
 ]
 ```
-## 网络接口   
+## **网络接口**   
 
 ```c++
     //每次调用send后必须调用recv函数

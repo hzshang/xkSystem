@@ -27,6 +27,7 @@ def main():
 	port=gl.config["port"]
 	listen=gl.config["listen"]
 	server=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	server.bind((listen,port))
 	server.listen(10)
 	while True:
