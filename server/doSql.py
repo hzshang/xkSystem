@@ -211,7 +211,7 @@ def delCourse(recvData):#老师删课
 		OpeCtimeOnRoom(*data,'0')
 	except Exception as e:
 		print(e)
-		cur.rollback()
+		gl.conn.rollback()
 		return {"state":False}
 	return {"state":True}
 

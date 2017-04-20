@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/courseLogo.png</file>
+        <file>Images/fudanLogo.png</file>
+        <file>Images/infoLogo.png</file>
+        <file>Images/selfIntro.png</file>
+        <file>Images/setting.png</file>
+        <file>Images/Suser.png</file>
+        <file>Images/Tuser.png</file>
+        <file>Images/tree.png</file>
+    </qresource>
+</RCC>
