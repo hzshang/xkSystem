@@ -7,7 +7,6 @@ sock::sock()
 }
 void sock::init()
 {
-
     return;
 }
 

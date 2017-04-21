@@ -26,7 +26,7 @@ loginDialog::~loginDialog()
 void loginDialog::setUserInfo()
 {
     logins.clear();
-    int size = settings->beginReadArray("logins");
+    int size = settings->beginReadArray("logins1");
     for (int i = 0; i < size; ++i) {
          settings->setArrayIndex(i);
          Login login;
@@ -71,7 +71,7 @@ void loginDialog::updateUserInfo()
         logins.append(login);
     }
     settings->clear();
-    settings->beginWriteArray("logins");
+    settings->beginWriteArray("logins1");
     for (int i = 0; i < logins.size(); ++i) {
         settings->setArrayIndex(i);
         settings->setValue("userName", logins.at(i).userName);
