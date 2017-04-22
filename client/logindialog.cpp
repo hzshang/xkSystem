@@ -15,6 +15,7 @@ loginDialog::loginDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize( this->width(),this->height());
     setUserInfo();
+    initServer();
     QObject::connect(ui->userNameComboBox,SIGNAL(currentTextChanged(QString)),this,SLOT(setPwd()));
 }
 
@@ -118,47 +119,10 @@ void loginDialog::onResetPwdDone(QString user)
     ui->loginPwdLineEdit->setFocus();
 }
 
-void loginDialog::receiveIPSet(QString h, int p)
+void loginDialog::receiveIPSet()
 {
     this->show();
-    host = h;
-    port = p;
 }
-
-/*void loginDialog::readFile()
-{
-    QFile file(filePath);
-    map.clear();
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-    QString user;
-    QString pwd;
-
-    while ( !stream.eof() ) {
-    in>>user>>pwd;
-    map.insert(user,pwd);
-    }
-    file.close();
-}
-
-void loginDialog::writeFile()
-{
-    QMap<QString, QString>::iterator it;
-    QString str = ui->loginUsrNameLineEdit->text();
-    it = map.find(str);
-    if(it != map.end())
-        map[str] = ui->loginPwdLineEdit->text();
-    QFile file(filePath);
-    file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);
-    file.resize(0);
-    QMap<QString, QString>::const_iterator i;
-    for(i = map.constBegin(); i != map.constEnd(); ++i)
-    {
-        out<<i.value()<<i.key();
-    }
-    file.close();
-}*/
 
 void loginDialog::receiveRegister()
 {
@@ -182,47 +146,52 @@ void loginDialog::receiveTeacherInfo()
     setUserInfo();
 }
 
-void loginDialog::on_registerPushButton_clicked()
+void loginDialog::initServer()
 {
-    if(host == "")
+    //host = "qq.ssfly.club";
+    //port = 3307;
+    QSettings *s = new QSettings("server.ini",QSettings::IniFormat);
+    if(!s->contains("host"))
     {
         host = "qq.ssfly.club";
         port = 3307;
-        mysock.connect(host,port);
+        s->setValue("host",host);
+        s->setValue("port",port);
+        return;
     }
-    else
-        mysock.connect(host,port);
+    //qDebug()<<s->value("host").toString();
+}
 
+void loginDialog::connectToSever()
+{
+    if(!isConnected)
+    { 
+        QSettings *s = new QSettings("server.ini",QSettings::IniFormat);
+        host = s->value("host").toString();
+        //qDebug()<<host;
+        port = s->value("port").toInt();
+        mysock.connect(host,port);
+        isConnected = true;
+    }
+}
+
+void loginDialog::on_registerPushButton_clicked()
+{
+    connectToSever();
     this->hide();
     emit showRegister();
 }
 
 void loginDialog::on_resetPwdPushButton_clicked()
 {
-    if(host == "")
-    {
-        host = "qq.ssfly.club";
-        port = 3307;
-        mysock.connect(host,port);
-    }
-    else
-        mysock.connect(host,port);
-
+    connectToSever();
     this->hide();
     emit showResetPwd();
 }
 
 void loginDialog::on_loginPushButton_clicked()
 {
-    if(host == "")
-    {
-        host = "qq.ssfly.club";
-        port = 3307;
-        mysock.connect(host,port);
-    }
-    else
-        mysock.connect(host,port);
-
+    connectToSever();
     if(!checkPwd())
         return;
     this->hide();

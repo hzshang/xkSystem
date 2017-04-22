@@ -22,7 +22,7 @@ private slots:
     void on_CancelButton_clicked();
 
 signals:
-    void showLogin(QString,int);
+    void showLogin();
 private:
     Ui::hostDialog *ui;
 };

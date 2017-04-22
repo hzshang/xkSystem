@@ -32,7 +32,7 @@ private slots:
     void receiveResetPwd();
     void receiveStudentInfo();
     void receiveTeacherInfo();
-    void receiveIPSet(QString,int);
+    void receiveIPSet();
     void setPwd();
 
     void on_registerPushButton_clicked();
@@ -59,14 +59,18 @@ private:
     QList<Login> logins;
     QMap<QString,QString> map;
     QString myfile = "test.ini";
+    QString file = "server.ini";
     QSettings *settings = new QSettings(myfile,QSettings::IniFormat);
 
     QString host = "";
-    int port;
+    int port = 0;
+    bool isConnected = false;
 
     void setUserInfo();
     void updateUserInfo();
     bool checkPwd();
+    void connectToSever();
+    void initServer();
 };
 
 #endif // LOGINDIALOG_H

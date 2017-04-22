@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     QObject::connect(&cou,SIGNAL(showTeacherWindow(QString)),&tea,SLOT(receiveCourseInfo(QString)));
     QObject::connect(&stu,SIGNAL(singOut()),&log,SLOT(receiveStudentInfo()));
     QObject::connect(&tea,SIGNAL(signOut()),&log,SLOT(receiveTeacherInfo()));
-    QObject::connect(&hos,SIGNAL(showLogin(QString,int)),&log,SLOT(receiveIPSet(QString,int)));
+    QObject::connect(&hos,SIGNAL(showLogin()),&log,SLOT(receiveIPSet()));
     QObject::connect(&log,SIGNAL(showIPSet()),&hos,SLOT(receriveLogin()));
     return a.exec();
 

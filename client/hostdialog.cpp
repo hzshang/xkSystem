@@ -1,8 +1,8 @@
 #include "hostdialog.h"
 #include "ui_hostdialog.h"
 #include <QMessageBox>
-#include <sock.h>
-
+#include <QSettings>
+#include <QDebug>
 hostDialog::hostDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::hostDialog)
@@ -32,16 +32,22 @@ void hostDialog::on_confirmButton_clicked()
         QMessageBox::warning(this,"警告","端口不能为空",QMessageBox::Ok);
         return;
     }
+    this->hide();
     QString host = ui->hostLine->text();
     int port = ui->portLine->text().toInt();
-    this->hide();
-    emit showLogin(host,port);
+    QSettings *s = new QSettings("server.ini",QSettings::IniFormat);
+    //s->clear();
+    tr("server.ini").resize(0);
+    s->setValue("host",host);
+    //qDebug()<<s->value("host").toString();
+    s->setValue("port",port);
+    emit showLogin();
 }
 
 void hostDialog::on_CancelButton_clicked()
 {
     this->hide();
-    QString host = "";
-    int port = 0;
-    emit showLogin(host,port);
+    //QString host = "";
+    //int port = 0;
+    emit showLogin();
 }
