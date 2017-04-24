@@ -23,9 +23,7 @@ int main(int argc, char *argv[])
     addCourseWindow add;
     courseInfoWindow cou;
     hostDialog hos;
-
     log.show();
-
     QObject::connect(&log,SIGNAL(showRegister()),&reg,SLOT(receiveLogin1()));
     QObject::connect(&log,SIGNAL(showResetPwd()),&ret,SLOT(receiveLogin2()));
     QObject::connect(&reg,SIGNAL(showLogin1()),&log,SLOT(receiveRegister()));
@@ -44,5 +42,4 @@ int main(int argc, char *argv[])
     QObject::connect(&hos,SIGNAL(showLogin()),&log,SLOT(receiveIPSet()));
     QObject::connect(&log,SIGNAL(showIPSet()),&hos,SLOT(receriveLogin()));
     return a.exec();
-
 }

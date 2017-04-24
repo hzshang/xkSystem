@@ -74,8 +74,6 @@ void studentWindow::setCoursesTable(int &row, QString &cName, QString &cNum, QSt
     QTableWidgetItem *itemMaxnum = new QTableWidgetItem(maxNum);
     ui->coursesTable->setItem(row,7,itemMaxnum);
     itemMaxnum->setTextAlignment(Qt::AlignHCenter);
-
-    //ui->coursesTable->setEnabled(false);
 }
 
 
@@ -194,13 +192,15 @@ void studentWindow::getCourses(int num,QString usr)//获取第num页的课程信
 
     QJsonDocument recvData = mysock.recv();
     QJsonObject datas = recvData.object();
+
     maxPageNum = (datas["total"].toInt()-1)/10;
     QJsonArray data = datas["courses"].toArray();
+
     int length = data.size();
     ui->coursesTable->setEnabled(true);
     ui->coursesTable->clear();
     QStringList listHeaders;
-    listHeaders<<"课程名"<<"课程代码"<<"学分"<<"教师"<<"时间"<<"教师"<<"已选人数"<<"人数上限"<<"备注";
+    listHeaders<<"课程名"<<"课程代码"<<"教师"<<"学分"<<"时间"<<"教室"<<"已选人数"<<"人数上限";
     ui->coursesTable->setHorizontalHeaderLabels(listHeaders);
     for(int i = 0;i < length;i++)
     {
@@ -217,7 +217,7 @@ void studentWindow::getCourses(int num,QString usr)//获取第num页的课程信
         QString curNum = QString("%1").arg(b);
         int c = object["max"].toInt();
         QString maxNum = QString("%1").arg(c);
-        setCoursesTable(i,cName,cNum,cCredit,cTeacher,cTime,cRoom,curNum,maxNum);
+        setCoursesTable(i,cName,cNum,cTeacher,cCredit,cTime,cRoom,curNum,maxNum);
     }
     int m = curPageNum+1;
     int n = maxPageNum+1;
@@ -238,9 +238,8 @@ void studentWindow::chooseCourse(QString &usr, QString &cNum)//学生选课，pi
     if(!state)
     {
         QMessageBox::information(this,"信息","选课失败",QMessageBox::Ok);
-        return;
-    }
-    QMessageBox::information(this,"信息","选课成功",QMessageBox::Ok);
+    }else
+        QMessageBox::information(this,"信息","选课成功",QMessageBox::Ok);
     curPageNum = 0;
     getCourses(curPageNum,userName);
     getCoursesChosenInfo(usr);
@@ -267,27 +266,6 @@ void studentWindow::dropCourse(QString &usr, QString &cNum)//学生退课，pid 
     getCourses(curPageNum,userName);
     getCoursesChosenInfo(usr);
 }
-
-//void studentWindow::on_setPhotoPushButton_clicked()//上传图片
-//{
-//    localPhoto = QFileDialog::getOpenFileName(this);
-//    if(!localPhoto.isEmpty())
-//    {
-//        QPixmap *pixmap = NULL;
-//        pixmap = new QPixmap(95,105);
-//        pixmap->load(localPhoto);
-//        ui->photo->clear();
-//        ui->photo->setPixmap(*pixmap);
-
-//        if(pixmap)
-//            ui->setPhotoPushButton->setText("更换图片");
-//    }
-//    else
-//    {
-//        ui->photo->setText(" Your Photo!");
-//        ui->setPhotoPushButton->setText("上传图片");
-//    }
-//}
 
 void studentWindow::receiveLogin3(QString user)//加载界面
 {
@@ -316,6 +294,13 @@ void studentWindow::receiveLogin3(QString user)//加载界面
     curPageNum = 0;
     getCourses(curPageNum,userName);
     getCoursesChosenInfo(userName);
+}
+
+void studentWindow::clearLine()
+{
+    ui->cNameLine->clear();
+    ui->cNumLine->clear();
+    ui->cTeacherLine->clear();
 }
 
 void studentWindow::on_nextPageButton_clicked()
@@ -351,10 +336,8 @@ void studentWindow::on_chooseCourseButton_clicked()
         ui->cNumLine->setFocus();
         return;
     }
-    QString str = ui->cNumLine->text();
-    ui->cNameLine->clear();
-    ui->cNumLine->clear();
-    ui->cTeacherLine->clear();
+    QString str = ui->cNumLine->text();\
+    clearLine();
     chooseCourse(userName,str);
 }
 
@@ -367,9 +350,7 @@ void studentWindow::on_dropCourseButton_clicked()
         return;
     }
     QString str = ui->cNumLine->text();
-    ui->cNameLine->clear();
-    ui->cNumLine->clear();
-    ui->cTeacherLine->clear();
+    clearLine();
     dropCourse(userName,str);
 }
 
@@ -383,4 +364,22 @@ void studentWindow::on_signOutButton_clicked()
 {
     this->hide();
     emit singOut();
+}
+
+QString studentWindow::getData(int k)
+{
+    int curRow=ui->coursesTable->currentIndex().row();
+    QAbstractItemModel *modessl = ui->coursesTable->model();
+    QModelIndex indextemp = modessl->index(curRow,k);
+    QString datatemp = modessl->data(indextemp).toString();
+    return datatemp;
+}
+
+
+void studentWindow::on_coursesTable_itemClicked(QTableWidgetItem *item)
+{
+    //int curRow = item->row();
+    ui->cNameLine->setText(getData(0));
+    ui->cNumLine->setText(getData(1));
+    ui->cTeacherLine->setText(getData(3));
 }

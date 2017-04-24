@@ -10,13 +10,14 @@ def handle_connection(sock,address):
 	gl.conn=gl.connect()
 	try:
 		while True:
-			byteData=sock.recv(1024)
+			byteData=sock.recv(2048)
 			if not byteData:
 				print("disconnect from %s:%s"%address)
 				break
 			else:
 				recvData=json.loads(byteData.decode('utf-8'))
 				sendData=doSql.operate(recvData)
+				print('Debug:',json.dumps(sendData))
 				sock.send(json.dumps(sendData).encode('utf-8'))
 	except:
 		raise

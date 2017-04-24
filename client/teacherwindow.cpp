@@ -206,7 +206,7 @@ void teacherWindow::receiveLogin4(QString usr)//登陆加载界面
 
 void teacherWindow::receiveAddCourse(QString usr)//从添加课程界面返回
 {
-    this->show();
+    //this->show();
     userName = usr;
     ui->usrNameLable->setText(userName);
     getBasicInfo(userName);
@@ -215,7 +215,7 @@ void teacherWindow::receiveAddCourse(QString usr)//从添加课程界面返回
 }
 void teacherWindow::receiveCourseInfo(QString usr)//从查看课程信息界面返回
 {
-    this->show();
+    //this->show();
     userName = usr;
     ui->usrNameLable->setText(userName);
     getBasicInfo(userName);
@@ -264,7 +264,7 @@ void teacherWindow::on_addCourseButton_clicked()
 {
     ui->cNameComboBox->clear();
     ui->cNumline->clear();
-    this->hide();
+    //this->hide();
     emit addCourseRequest(userName);
 }
 
@@ -280,7 +280,7 @@ void teacherWindow::on_courseChosenButton_clicked()
     QString cNum = ui->cNumline->text();
     ui->cNameComboBox->clear();
     ui->cNumline->clear();
-    this->hide();
+    //this->hide();
     emit showCourseInfo(userName,tName,cName,cNum);
 }
 

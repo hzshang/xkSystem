@@ -168,7 +168,7 @@ void loginDialog::connectToSever()
     { 
         QSettings *s = new QSettings("server.ini",QSettings::IniFormat);
         host = s->value("host").toString();
-        //qDebug()<<host;
+        qDebug()<<host;
         port = s->value("port").toInt();
         mysock.connect(host,port);
         isConnected = true;
@@ -231,6 +231,7 @@ void loginDialog::setPwd()
 
 void loginDialog::on_setButton_clicked()
 {
+    isConnected = false;
     this->hide();
     emit showIPSet();
 }

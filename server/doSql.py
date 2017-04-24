@@ -75,6 +75,7 @@ def askForCourses(recvData):#学生查看可选课程
 	cur.execute(sql)
 	fet=cur.fetchall()
 	piece=fet[recvData["index"]*10:recvData["index"]*10+10]
+	print(len(piece))
 	array=[dict(cid=i[0],cname=i[1],current=i[2],max=i[3],ctime=i[5],tname=i[6],rid=i[4],credit=i[7]) for i in piece]
 	#Log
 	print("askForCourse")

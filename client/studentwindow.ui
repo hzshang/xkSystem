@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>900</width>
-    <height>650</height>
+    <height>627</height>
    </rect>
   </property>
   <property name="palette">
@@ -433,7 +433,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>50</y>
+      <y>60</y>
       <width>130</width>
       <height>130</height>
      </rect>
@@ -867,7 +867,7 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>40</y>
+      <y>50</y>
       <width>711</width>
       <height>321</height>
      </rect>
@@ -948,9 +948,9 @@
    <widget class="QTableWidget" name="coursesTable">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>370</y>
-      <width>901</width>
+      <x>30</x>
+      <y>380</y>
+      <width>841</width>
       <height>171</height>
      </rect>
     </property>
@@ -961,7 +961,7 @@
      <number>10</number>
     </property>
     <property name="columnCount">
-     <number>9</number>
+     <number>8</number>
     </property>
     <row/>
     <row/>
@@ -985,12 +985,12 @@
     </column>
     <column>
      <property name="text">
-      <string>学分</string>
+      <string>教师</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>授课教师</string>
+      <string>学分</string>
      </property>
     </column>
     <column>
@@ -1013,17 +1013,12 @@
       <string>人数限制</string>
      </property>
     </column>
-    <column>
-     <property name="text">
-      <string>备注</string>
-     </property>
-    </column>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>190</y>
+      <y>200</y>
       <width>45</width>
       <height>141</height>
      </rect>
@@ -1063,7 +1058,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>190</y>
+      <y>200</y>
       <width>111</width>
       <height>141</height>
      </rect>
@@ -1103,7 +1098,7 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>10</y>
+      <y>14</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -1122,7 +1117,7 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>16</y>
+      <y>20</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -1134,8 +1129,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>544</y>
+      <x>350</x>
+      <y>554</y>
       <width>239</width>
       <height>32</height>
      </rect>
@@ -1167,8 +1162,8 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>570</y>
+      <x>600</x>
+      <y>554</y>
       <width>273</width>
       <height>32</height>
      </rect>
@@ -1200,8 +1195,8 @@
    <widget class="QPushButton" name="signOutButton">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>0</y>
+      <x>820</x>
+      <y>10</y>
       <width>54</width>
       <height>32</height>
      </rect>
@@ -1213,8 +1208,8 @@
    <widget class="QLineEdit" name="cNameLine">
     <property name="geometry">
      <rect>
-      <x>28</x>
-      <y>550</y>
+      <x>50</x>
+      <y>560</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1223,8 +1218,8 @@
    <widget class="QLineEdit" name="cNumLine">
     <property name="geometry">
      <rect>
-      <x>133</x>
-      <y>550</y>
+      <x>160</x>
+      <y>560</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1233,8 +1228,8 @@
    <widget class="QLineEdit" name="cTeacherLine">
     <property name="geometry">
      <rect>
-      <x>327</x>
-      <y>550</y>
+      <x>260</x>
+      <y>560</y>
       <width>80</width>
       <height>20</height>
      </rect>

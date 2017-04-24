@@ -47,7 +47,5 @@ void hostDialog::on_confirmButton_clicked()
 void hostDialog::on_CancelButton_clicked()
 {
     this->hide();
-    //QString host = "";
-    //int port = 0;
     emit showLogin();
 }

@@ -3,6 +3,7 @@
 sock::sock()
 {
     isConnected=false;
+    mysocket.setReadBufferSize(2048);
     return;
 }
 void sock::init()
@@ -26,6 +27,7 @@ void sock::connect(QString host,int port)
 
 bool sock::send(const QJsonObject &object)
 {
+
     QString str=QJsonDocument(object).toJson();
     qWarning()<<str;
     QByteArray tosend=str.toUtf8();
@@ -33,10 +35,10 @@ bool sock::send(const QJsonObject &object)
     return mysocket.waitForBytesWritten();
 }
 
-
 QJsonDocument sock::recv()
 {
     mysocket.waitForReadyRead();
     QByteArray bytes=mysocket.readAll();
+    qWarning()<<bytes;
     return QJsonDocument::fromJson(bytes);//Parses json as a UTF-8
 }

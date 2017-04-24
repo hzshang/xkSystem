@@ -2,6 +2,7 @@
 #define STUDENTWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidget>
 
 namespace Ui {
 class studentWindow;
@@ -33,6 +34,8 @@ private slots:
 
     void on_signOutButton_clicked();
 
+    void on_coursesTable_itemClicked(QTableWidgetItem *item);
+
 signals:
     void singOut();
 private:
@@ -53,7 +56,9 @@ private:
     void getCourses(int num,QString usr);
     void chooseCourse(QString &usr,QString &cNum);
     void dropCourse(QString &usr,QString &cNum);
+    void clearLine();
     QString timeSwitch(QString &t);
+    QString getData(int k);
 
 };
 
