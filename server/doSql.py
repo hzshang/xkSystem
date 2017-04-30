@@ -204,7 +204,7 @@ def addCourse(recvData):#老师加课
 		ret={"state":True,"cid":cid}
 	#log
 	print('%s adds course:%s'%(recvData['user'],ret['state']))
-	return
+	return ret
 
 def delCourse(recvData):#老师删课
 #先删除sc,再删除c,再修改room

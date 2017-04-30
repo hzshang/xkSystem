@@ -2,7 +2,7 @@
 import json
 import cymysql
 
-configFile=open('config.json')
+configFile=open('lib/config.json')
 config =json.loads(configFile.read())
 conn=None
 round=config["round"]

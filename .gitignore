@@ -7,6 +7,7 @@ build
 server/__pycache__
 server/sftp-config.json
 server/config.json
-*.sql
 *.pptx
+*.zip
 pj_exe/
+release/
