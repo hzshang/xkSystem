@@ -1,7 +1,7 @@
 学生选课管理系统  
 =============
 
-##版本特点
+## 版本特点
 - 采用服务端、客户端分离开发，保证数据库安全
 - 使用TCP连接传送数据
 - 用户密码采用md5算法加密  
@@ -13,28 +13,28 @@
 [设计文档](resources/design.md)
 
 
-##运行要求  
+## 运行要求  
 - python 3.5 or newer   
 - pip  
 - mysql  
 
-##测试环境  
+## 测试环境  
 Ubuntu
 
-##安装
-###step1
+## 安装
+### step1
 ```bash
 git clone https://github.com/hzshang/xkSystem.git
 cd xkSystem/server
 ```  
-###step2
+### step2
 创建数据库并导入sql目录下的struct.sql文件  
-###step3
+### step3
 安装python模块cymysql
 ```bash
 pip3 install cymysql
 ```
-###step4
+### step4
 复制sample-config.json并重命名为config.json,修改参数  
 ```json
 {
@@ -47,19 +47,19 @@ pip3 install cymysql
 	"round":1//选课轮数
 }
 ```
-###step5
+### step5
 修改MTU  
 由于单次发送的数据包过大，应将MTU(一个数据包的最大字节数)设为4096  
 ```bash
-#查看MTU  
+# 查看MTU  
 cat /sys/class/net/eth0/mtu
-#修改MTU  
+# 修改MTU  
 echo "4096" > /sys/class/net/eth0/mtu  
-#重启网络使修改生效
+# 重启网络使修改生效
 /etc/init.d/networking restart
 ```
 
-##运行
+## 运行
 ```bash
 python3 server.py
 ```
@@ -76,7 +76,7 @@ python3 server.py
 ./restart.sh
 ```
 
-##作者  
+## 作者  
 server by 尚红泽<15307130154@fudan.edu.cn>  
 client by 刘俊涛<15307130161@fudan.edu.cn>
 
