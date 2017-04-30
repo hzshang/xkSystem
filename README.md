@@ -13,7 +13,7 @@
 [设计文档](resources/design.md)
 
 
-## 运行要求  
+## 服务端运行要求  
 - python 3.5 or newer   
 - pip  
 - mysql  
