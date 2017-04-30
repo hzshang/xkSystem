@@ -31,10 +31,12 @@ void studentWindow::getBasicInfo(const QString &usr)//通过用户名，获取�
     sendData.insert("user",usr);
     mysock.send(sendData);
 
+
     QJsonDocument recvData = mysock.recv();
     QJsonObject data = recvData.object();
     ui->nameLabel->setText(data["name"].toString());
     ui->departmentLabel->setText(data["dname"].toString());
+    ui->roundLabel->setText(tr("当前为第%1轮选课时间").arg(data["round"].toInt()));
 }
 
 void studentWindow::setCourseChosenTable(int &row,int &col,QString &courseInfo)
@@ -381,5 +383,37 @@ void studentWindow::on_coursesTable_itemClicked(QTableWidgetItem *item)
     //int curRow = item->row();
     ui->cNameLine->setText(getData(0));
     ui->cNumLine->setText(getData(1));
-    ui->cTeacherLine->setText(getData(3));
+    ui->cTeacherLine->setText(getData(2));
+}
+
+void studentWindow::on_courseChosenTable_itemClicked(QTableWidgetItem *item)
+{
+    if(item == NULL)
+    {
+        clearLine();
+        return;
+    }
+    QString info = item->text();
+    int i,l = 0;
+    int size = info.size();
+    for(i = l;i < size;i++)
+    {
+        if(info.mid(i,1) == "(")
+            break;
+    }
+    ui->cNameLine->setText(info.mid(0,i));
+    l = i+1;
+    for(i = l;i < size;i++)
+    {
+        if(info.mid(i,1) == ")")
+            break;
+    }
+    ui->cTeacherLine->setText(info.mid(l,i-l));
+    l = i+2;
+    for(i = l;i < size;i++)
+    {
+        if(info.mid(i,1) == ")")
+            break;
+    }
+    ui->cNumLine->setText(info.mid(l,i-l));
 }

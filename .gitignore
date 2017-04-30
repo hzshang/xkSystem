@@ -9,3 +9,4 @@ server/sftp-config.json
 server/config.json
 *.sql
 *.pptx
+pj_exe/

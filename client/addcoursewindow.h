@@ -14,7 +14,7 @@ class addCourseWindow : public QMainWindow
 public:
     explicit addCourseWindow(QWidget *parent = 0);
     ~addCourseWindow();
-
+    void closeEvent(QCloseEvent *event);
 private slots:
     void receiveTeacherAddCourseRequest(QString);
     void setRoomTimeInfo();

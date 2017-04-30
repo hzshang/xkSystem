@@ -168,7 +168,6 @@ void loginDialog::connectToSever()
     { 
         QSettings *s = new QSettings("server.ini",QSettings::IniFormat);
         host = s->value("host").toString();
-        qDebug()<<host;
         port = s->value("port").toInt();
         mysock.connect(host,port);
         isConnected = true;

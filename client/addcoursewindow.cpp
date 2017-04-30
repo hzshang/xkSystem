@@ -15,6 +15,11 @@ addCourseWindow::addCourseWindow(QWidget *parent) :
     this->setFixedSize( this->width(),this->height());
     QObject::connect(ui->cRoomComboBox,SIGNAL(currentTextChanged(QString)),this,SLOT(setRoomTimeInfo()));
 }
+void addCourseWindow::closeEvent(QCloseEvent *event)
+{
+    this->hide();
+    emit showTeacherWindow(userName);
+}
 
 addCourseWindow::~addCourseWindow()
 {

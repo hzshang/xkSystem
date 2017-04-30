@@ -36,6 +36,8 @@ private slots:
 
     void on_coursesTable_itemClicked(QTableWidgetItem *item);
 
+    void on_courseChosenTable_itemClicked(QTableWidgetItem *item);
+
 signals:
     void singOut();
 private:

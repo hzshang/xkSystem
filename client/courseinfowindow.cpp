@@ -15,6 +15,11 @@ courseInfoWindow::courseInfoWindow(QWidget *parent) :
     this->setFixedSize( this->width(),this->height());
     ui->studentInfoTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
+void courseInfoWindow::closeEvent(QCloseEvent *event)
+{
+    this->hide();
+    emit showTeacherWindow(userName);
+}
 
 courseInfoWindow::~courseInfoWindow()
 {

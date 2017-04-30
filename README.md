@@ -380,7 +380,8 @@ delete from sc where sid="100010001" and cid="000302"
 ```json
 {
     "dname":"计算机学院",
-    "name":"李华"
+    "name":"李华",
+    "round":1
 }
 ```
 #### 老师查看自己开设的课程  
@@ -445,9 +446,9 @@ delete from sc where sid="100010001" and cid="000302"
 ```json
 {
     "pid":15
-}
 ```
 返回
+}
 ```json
 [
     "2018","2014","2001"
@@ -461,4 +462,16 @@ delete from sc where sid="100010001" and cid="000302"
     QJsonDocument recv();//接受
 ```
 
+
+#### 服务端MTU设置
+由于单次发送的数据包过大，请将MTU(一个数据包的最大字节数)设为4096  
+
+```bash
+#查看MTU  
+cat /sys/class/net/eth0/mtu
+#修改MTU  
+echo "4096" > /sys/class/net/eth0/mtu  
+#重启网络使修改生效
+/etc/init.d/networking restart
+```
 

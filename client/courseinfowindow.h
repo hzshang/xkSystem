@@ -14,7 +14,7 @@ class courseInfoWindow : public QMainWindow
 public:
     explicit courseInfoWindow(QWidget *parent = 0);
     ~courseInfoWindow();
-
+    void closeEvent(QCloseEvent *event);
 private slots:
     void receiveTeacherInfoRequeset(QString,QString,QString,QString);
 

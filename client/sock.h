@@ -10,12 +10,12 @@ public:
     sock();
     bool send(const QJsonObject &);
     QJsonDocument recv();
-    void init();
     void connect(QString host,int port);
-    bool isConnected;
 
 private:
     QTcpSocket mysocket;
+    QString myhost;
+    int myport;
 };
 
 #endif // SOCK_H

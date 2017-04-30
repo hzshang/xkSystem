@@ -69,9 +69,14 @@ def askForSchedule(recvData):
 
 def askForCourses(recvData):#学生查看可选课程
 	cur=gl.conn.cursor()
-	sql="select cid,cname,current,max,rid,ctime,name,credit from course,user\
-	where tid=id and cid not in (select cid from sc where sid='%s') and cname like '%%%s%%'\
-	and cid like '%%%s%%' and name like '%%%s%%'"%(recvData["user"],recvData["cname"],recvData["cid"],recvData["tname"])
+	if gl.round==2:
+		sql="select cid,cname,current,max,rid,ctime,name,credit from course,user\
+		where tid=id and cid not in (select cid from sc where sid='%s') and cname like '%%%s%%'\
+		and cid like '%%%s%%' and name like '%%%s%%'"%(recvData["user"],recvData["cname"],recvData["cid"],recvData["tname"])
+	else:
+		sql="select cid,cname,current,max,rid,ctime,name,credit from course,user\
+		where tid=id and did in (select did from user where id='%s') and cid not in (select cid from sc where sid='%s') and cname like '%%%s%%'\
+		and cid like '%%%s%%' and name like '%%%s%%'"%(recvData["user"],recvData["user"],recvData["cname"],recvData["cid"],recvData["tname"])
 	cur.execute(sql)
 	fet=cur.fetchall()
 	piece=fet[recvData["index"]*10:recvData["index"]*10+10]
@@ -96,14 +101,10 @@ def initSchedule(user):
 
 def checkTimeIsOK(ctime,time):#检查课程时间是否冲突
 	ok=True
-	print("checkTimeIsOk.Debug")
-	print("time is:",time)
-	print("ctime is:",ctime)
 	for j in range(0,int(ctime[2])):
 		if time[int(ctime[0])-1][int(ctime[1])+j]=='1':
 			ok=False
 			break
-	print(ok)
 	return ok
 
 def setCurrentCourseNum(cid,added):
@@ -138,6 +139,8 @@ def selectCourse(recvData):#学生选课
 	except Exception as e:
 		print(e)
 		ret={"state":False}
+	#log
+	print('%s selects course %s:%s'%(recvData["user"],recvData["cid"],ret["state"]))
 	return ret
 
 def quitCourse(recvData):#学生退课
@@ -155,6 +158,8 @@ def quitCourse(recvData):#学生退课
 	except Exception as e:
 		print(e)
 		ret={"state":False}
+	#log
+	print('%s quit course %s:%s'%(recvData['user'],recvData['cid'],ret['state']))
 	return ret
 
 def findMaxCourseID(tid):#查找最大的课程id
@@ -188,14 +193,18 @@ def addCourse(recvData):#老师加课
 	sql="select * from room where rid='%s'"%recvData["rid"]
 	cur.execute(sql)
 	if not checkTimeIsOK(recvData["ctime"],cur.fetchall()[0][1:]):
-		return {"state":False}
-	cid=findMaxCourseID(recvData["user"])
-	sql='insert into course values("%s","%s",%s,%s,"%s","%s","%s",%s)'\
-	%(cid,recvData["cname"],0,recvData["max"],recvData["user"],recvData["ctime"],recvData["rid"],recvData["credit"])
-	cur.execute(sql)
-	gl.conn.commit()
-	OpeCtimeOnRoom(recvData["rid"],recvData["ctime"],'1')
-	return {"state":True,"cid":cid}
+		ret={"state":False}
+	else:
+		cid=findMaxCourseID(recvData["user"])
+		sql='insert into course values("%s","%s",%s,%s,"%s","%s","%s",%s)'\
+		%(cid,recvData["cname"],0,recvData["max"],recvData["user"],recvData["ctime"],recvData["rid"],recvData["credit"])
+		cur.execute(sql)
+		gl.conn.commit()
+		OpeCtimeOnRoom(recvData["rid"],recvData["ctime"],'1')
+		ret={"state":True,"cid":cid}
+	#log
+	print('%s adds course:%s'%(recvData['user'],ret['state']))
+	return
 
 def delCourse(recvData):#老师删课
 #先删除sc,再删除c,再修改room
@@ -210,11 +219,14 @@ def delCourse(recvData):#老师删课
 		cur.execute(sql)
 		gl.conn.commit()
 		OpeCtimeOnRoom(*data,'0')
+		ret={"state":True}
 	except Exception as e:
 		print(e)
 		gl.conn.rollback()
-		return {"state":False}
-	return {"state":True}
+		ret={"state":False}
+	#log
+	print('%s deletes course %s:%s'%(recvData['user'],recvData['cid'],ret['state']))
+	return ret
 
 def seeMyCourse(recvData):#老师查看所有开设的课程
 	sql="select * from course where tid='%s'"%recvData["user"]
@@ -234,7 +246,7 @@ def askForUserInformation(recvData):#请求用户信息
 	cur=gl.conn.cursor()
 	cur.execute(sql)
 	fet=cur.fetchall()[0]
-	return dict(name=fet[0],dname=fet[1])
+	return dict(name=fet[0],dname=fet[1],round=gl.round)
 
 def askForRoomInformation(recvData):
 	cur=gl.conn.cursor()
@@ -248,6 +260,9 @@ def askForRoom(recvData):
 	sql='select rid from room'
 	cur.execute(sql)
 	return [i[0] for i in cur.fetchall()]
+
+def askForRound(recvData):
+	return {"round":gl.round}
 
 switch={
 	1:signin,
