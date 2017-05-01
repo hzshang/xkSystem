@@ -35,7 +35,7 @@ cd xkSystem/server
 pip3 install cymysql
 ```
 ### step4
-复制sample-config.json并重命名为config.json,修改参数  
+将lib文件夹下的sample-config.json另存为config.json,修改参数  
 ```json
 {
 	"db_host":"yourHost",//数据库地址 

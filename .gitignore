@@ -5,6 +5,7 @@
 dist
 build
 server/__pycache__
+server/lib/config.json
 server/sftp-config.json
 server/config.json
 *.pptx
