@@ -78,5 +78,5 @@ python3 server.py
 
 ## 作者  
 server by 尚红泽<15307130154@fudan.edu.cn>  
-client by 刘俊涛<15307130161@fudan.edu.cn>
+client by 刘俊涛https://github.com/JuntaoLiu01
 
