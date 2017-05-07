@@ -225,10 +225,6 @@ total表示所有待选可课程（方便计算页数）
     "state":true
 }
 ```
-操作
-```sql
-delete from sc where sid="100010001" and cid="000302"
-```
 
 #### 老师添加课程 
 请求
