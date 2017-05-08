@@ -225,7 +225,7 @@ def delCourse(recvData):#老师删课
 		gl.conn.rollback()
 		ret={"state":False}
 	#log
-	print('%s deletes course %s:%s'%(recvData['user'],recvData['cid'],ret['state']))
+	print('delete course %s:%s'%(recvData['cid'],ret['state']))
 	return ret
 
 def seeMyCourse(recvData):#老师查看所有开设的课程
