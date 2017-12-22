@@ -76,7 +76,4 @@ python3 server.py
 ./restart.sh
 ```
 
-## 作者  
-server by [尚红泽](https://github.com/hzshang)  
-client by [刘俊涛](https://github.com/JuntaoLiu01)
 
